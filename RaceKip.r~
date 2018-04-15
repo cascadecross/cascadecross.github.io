@@ -1,0 +1,23 @@
+library(data.table)
+reg <- fread("./REG_35702.csv")
+res <- fread("./TestResults.csv")
+
+names(reg) <- gsub("Name| |/", "", names(reg))
+
+## reg[,key:=paste(First, Last)]
+## res[,key:=paste(First, Last)]
+
+points <- data.table(Place=1:10,
+                     Points=c(seq(35,20,-5), seq(18,8,-2)))
+
+resUpdate <- merge(reg, res, by=c("First", "Last"), all.x=T)
+
+res$Points[is.na(res$Points)] <- 0
+
+res[First=="Jesse",]
+
+uniReg <- unique(reg[, .(.N, paste(CategoryEnteredMerchandiseOrdered, collapse = ",")),
+                         by=c("First", "Last")])[N >1,]
+
+View(reg[order(First),])
+
