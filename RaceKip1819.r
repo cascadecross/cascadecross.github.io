@@ -32,7 +32,7 @@ topRace <- function(x, topCount = 4){
 
 overallTopCount <- dcast(resComp, ATHLETE~CATEGORY,
                      value.var = "Points",
-                     fun.aggregate = top5)
+                     fun.aggregate = topRace)
 
 
 
