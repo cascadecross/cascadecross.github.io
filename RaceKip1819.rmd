@@ -1,0 +1,50 @@
+---
+title: Cascade Cross 2018-2019
+---
+
+# Overall Results
+
+```{r, echo = F}
+
+library(data.table)
+library(readxl)
+library(DT, quiet = T)
+
+res <- data.table(read_xlsx("./data/season1819/Overall.xlsx", 1))
+
+## res[,Last:=gsub("Vandyke", "VanDyke", Last)]
+## res[,Last:=gsub("peerson", "Peerson", Last)]
+
+setnames(res, c("CAT-POS"), c("Place"))
+
+res[,PlaceNum:=as.character(Place)]
+res[grep("[[:alpha:]]", PlaceNum), PlaceNum:="0"]
+res[,PlaceNum:=as.numeric(PlaceNum)]
+
+poi <- fread("./data/points.csv")
+setnames(poi, "Place", "PlaceNum")
+res <- merge(res, poi, by="PlaceNum", all.x = T)
+
+resComp <- res[grepl("^[0-9]+$", Place),]
+resComp[,RaceCount:=.N, by=c("ATHLETE", "CATEGORY")]
+resSer <- resComp[RaceCount >= 2,]
+
+overall <- dcast(resComp, ATHLETE~CATEGORY,
+                 value.var = "Points",
+                 fun.aggregate = sum, na.rm = T)
+
+top5 <- function(x){
+    if(length(x) > 5){
+        return(sum(sort(x, decreasing = T)[1:5], na.rm = T))
+    }
+    return(sum(x, na.rm=T))
+}
+
+overallTop5 <- dcast(resComp, ATHLETE~CATEGORY,
+                     value.var = "Points",
+                     fun.aggregate = top5)
+
+datatable(overallTop5, rownames = F)
+
+```
+

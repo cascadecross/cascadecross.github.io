@@ -1,6 +1,6 @@
 library(data.table)
 library(xlsx)
-res <- data.table(read.xlsx("./data/RaceResults.xlsx", 1))
+res <- data.table(read.xlsx("./data/season1718/RaceResults.xlsx", 1))
 
 res[,Last:=gsub("Vandyke", "VanDyke", Last)]
 res[,Last:=gsub("peerson", "Peerson", Last)]
