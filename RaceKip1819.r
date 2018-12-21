@@ -23,14 +23,14 @@ overall <- dcast(resComp, ATHLETE~CATEGORY,
                  value.var = "Points",
                  fun.aggregate = sum, na.rm = T)
 
-top5 <- function(x){
-    if(length(x) > 5){
-        return(sum(sort(x, decreasing = T)[1:5], na.rm = T))
+topRace <- function(x, topCount = 4){
+    if(length(x) > topCount){
+        return(sum(sort(x, decreasing = T)[1:topCount], na.rm = T))
     }
     return(sum(x, na.rm=T))
 }
 
-overallTop5 <- dcast(resComp, ATHLETE~CATEGORY,
+overallTopCount <- dcast(resComp, ATHLETE~CATEGORY,
                      value.var = "Points",
                      fun.aggregate = top5)
 
