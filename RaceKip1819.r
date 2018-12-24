@@ -17,7 +17,7 @@ res <- merge(res, poi, by="PlaceNum", all.x = T)
 
 resComp <- res[grepl("^[0-9]+$", Place),]
 resComp[,RaceCount:=.N, by=c("ATHLETE", "CATEGORY")]
-resSer <- resComp[RaceCount >= 2,]
+resComp <- resComp[RaceCount >= 2,]
 
 overall <- dcast(resComp, ATHLETE~CATEGORY,
                  value.var = "Points",
@@ -31,8 +31,8 @@ topRace <- function(x, topCount = 4){
 }
 
 overallTopCount <- dcast(resComp, ATHLETE~CATEGORY,
-                     value.var = "Points",
-                     fun.aggregate = topRace)
+                         value.var = "Points",
+                         fun.aggregate = topRace)
 
 
 
