@@ -6,9 +6,9 @@ title: Cascadia Cross 2018-2019
 
 ```{r, echo = F}
 
-library(data.table)
-library(readxl)
-library(DT, quiet = T)
+invisible(library(data.table))
+invisible(library(readxl))
+invisible(library(DT, quiet = T))
 
 res <- data.table(read_xlsx("./data/season1819/RaceResults.xlsx", 1))
 
